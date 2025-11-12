@@ -3,22 +3,25 @@
 #include <vector>
 #include <map>
 #include <fstream>
+#include <locale>
+#include <cstdlib>
 
 using namespace std;
+
+#define CACETINHO system("chcp 65001");
 
 #define LIMPAR system("cls");
 
 class Funcionario{
     public:
         int id;
-        /* Aqui vai ter um
-        dicionario com os
-        atributos
-        Inteligência
-        Pesquisa e Desenvolvimento
-        Motivação
-        */
+        map<string, int> atributos = {
+            {"Inteligencia", 1},
+            {"Desenvolvimento e Pesquisa", 1},
+            {"Motivacao", 1}
+        };
         double salario;
+
 };
 
 class Empresa{

@@ -12,10 +12,10 @@ void DetalharEmpresa(Empresa emp){
     LIMPAR
     cout << "Detalhes de " << emp.nome << endl;
     cout << "Valor da empresa: R$ " << emp.valor << endl;
-    cout << "Quantidade de funcionários: " << emp.funcionarios.size() << endl;
-    cout << "Ambiente NV " << emp.melhorias["Ambiente"]<< endl; 
+    cout << "\nQuantidade de funcionários: " << emp.funcionarios.size() << endl;
+    cout << "\nAmbiente NV " << emp.melhorias["Ambiente"]<< endl; 
     cout << "Infraestrutura NV " << emp.melhorias["Infraestrutura"]<< endl; 
-    cout << "Marketing NV " << emp.melhorias["Marketing"]<< endl; 
+    cout << "Marketing NV " << emp.melhorias["Marketing"] << "\n\n"; 
 
     system("PAUSE");
 }
@@ -24,16 +24,16 @@ void menu(){
 
     LIMPAR
     
-    cout << "~ " << NomeDoEmpresario << " | " << "R$ " << dinheiro << endl;
-    cout << "Dia " << dia << endl;
+    cout << "~ " << NomeDoEmpresario << " | " << "Dia " << dia << endl;
+    cout << "R$ " << dinheiro << endl;
     
-    cout << "| Gerenciar EMPRESAS |" << endl;
-
+    cout << "\n| Gerenciar EMPRESAS |" << endl;
+    
     for(int i = 0;i < Empresas.size();i++){
         cout << i+1 << "- " << Empresas[i].nome << endl;
     }
 
-    cout << "2- " << endl;
+    cout << "\n" << Empresas.size() + 1 << "- Contratar Funcionários" << endl;
 
     cin >> op;
 
