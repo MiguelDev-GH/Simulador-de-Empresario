@@ -18,10 +18,11 @@ void criarEmpresa(string nome){
 }
 
 void semana(){
+    Contratacoes.clear();
     SortearContratacoes();
 }
 
-void DetalharEmpresa(Empresa emp){
+void DetalharEmpresa(Empresa& emp){
     LIMPAR
     cout << "Detalhes de " << emp.nome << endl;
     cout << "Valor da empresa: R$ " << emp.valor << endl;
@@ -31,6 +32,76 @@ void DetalharEmpresa(Empresa emp){
     cout << "Marketing NV " << emp.melhorias["Marketing"] << "\n\n"; 
 
     input();
+
+}
+
+void EmpresasFuncionarios(Empresa& emp){
+    LIMPAR
+
+    cout << "Funcionários de " << emp.nome << "\n" << endl;
+
+    for(int i = 0; i < (int)emp.funcionarios.size(); i++){
+        cout << i+1 << "- " << emp.funcionarios[i].nome << " | ";
+        cout << "DP " << emp.funcionarios[i].atributos["Desenvolvimento e Pesquisa"];
+        cout << " - INT " << emp.funcionarios[i].atributos["Inteligencia"];
+        cout << " - MOT " << emp.funcionarios[i].atributos["Motivacao"] << endl;
+    }
+
+    cout << "\nEscreva um número assiciado ao funcionário para acessar tais funções..." << endl;
+    input();
+
+    if(op >= "1" && op <= to_string(emp.funcionarios.size())){
+        LIMPAR
+
+        Funcionario& func = emp.funcionarios[stoi(op) - 1];
+
+        cout << func.nome << " | Rate > " << func.overall << " <\n" << endl;
+
+        int cont = 1;
+
+        for(auto& i : func.atributos){
+            cout << cont << "- " << i.first << " NV " << i.second << endl;
+            cont++;
+        }
+
+        cout << "\nPreço de melhoria: R$ " << func.custoMelhoria << endl;
+        cout << "Digite o número do atributo se quiser melhorá-lo..." << endl;
+        input();
+
+
+        int op2 = 0;
+        try {
+            op2 = stoi(op);
+        } catch(...) {
+            return;
+        }
+
+        if(op2 >= 1 && op2 <= 3){
+            if(dinheiro >= func.custoMelhoria){
+                switch (op2){
+                    case 1:
+                        func.atributos["Desenvolvimento e Pesquisa"] += 1;
+                        dinheiro -= func.custoMelhoria;
+                        break;
+                    case 2:
+                        func.atributos["Inteligencia"] += 1;
+                        dinheiro -= func.custoMelhoria;
+                        break;
+                    case 3:
+                        func.atributos["Motivacao"] += 1;
+                        dinheiro -= func.custoMelhoria;
+                        break;
+                    }
+                acoesPorDia--;
+                func.overall += 1;
+            } else {
+                LIMPAR
+                cout << "- Dinheiro INSUFICIENTE! -\n" << endl;
+                cout << "Digite algo para voltar..." << endl;
+                input();
+            }
+        }
+    }
 
 }
 
@@ -61,11 +132,12 @@ void menu(){
         cout << "~ Empresa: " << Empresas[empNum].nome << endl;
 
         cout << "\n1- Detalhes" << endl; 
-        cout << "2- Deletar Empresa" << endl; // Opção não feita ainda
+        cout << "2- Funcionários..." << endl;
+        cout << "3- Deletar Empresa" << endl; // Opção não feita ainda
         input();
 
         if(op == "1") DetalharEmpresa(Empresas[empNum]);
-        else if (op == to_string(Empresas.size() + 1));
+        else if(op == "2") EmpresasFuncionarios(Empresas[empNum]);
 
     } else if(op == to_string(Empresas.size() + 1)){
         SistemaContratacao();
@@ -76,7 +148,6 @@ void menu(){
 
 void SortearContratacoes(){
     srand(time(NULL));
-    Contratacoes.clear();
 
     LIMPAR
 
@@ -94,8 +165,8 @@ void SortearContratacoes(){
             salario += func.second;
         }        
         
-        novo.custoMelhoria = salario * 0.45;
         novo.salario = ((salario*salario) * 45) + 1200;
+        novo.custoMelhoria = novo.salario * 0.45;
 
         Contratacoes.push_back(novo);
 

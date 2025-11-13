@@ -45,7 +45,7 @@ class Empresa{
 
 string NomeDoEmpresario;
 double dinheiro;
-int dia;
+int dia = 1;
 int acoesPorDia = 3;
 int pularDia = 0;
 

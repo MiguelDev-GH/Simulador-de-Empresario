@@ -16,14 +16,21 @@ int main(){
     getline(cin, op);
     criarEmpresa(op);
 
+    SortearContratacoes();
+
     while(op != "SAIR"){
-        if(dia % 7 == 0){semana();}
+        if(op == "DINHEIRO") dinheiro+=10000;
+        
         menu();
 
         if(acoesPorDia <= 0 || pularDia == 1){
             dia++;
             acoesPorDia = 3;   
             pularDia = 0;
+
+            if(dia % 7 == 0){
+                semana();
+            } else if(dia & 30 == 0){}
         }
     }
 
