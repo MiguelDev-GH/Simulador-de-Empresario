@@ -5,6 +5,7 @@
 #include <fstream>
 #include <locale>
 #include <cstdlib>
+#include <chrono>
 
 using namespace std;
 
@@ -21,6 +22,9 @@ class Funcionario{
             {"Motivacao", 1}
         };
         double salario;
+        int overall = 0;
+    
+
 
 };
 
@@ -44,6 +48,11 @@ int dia;
 string op;
 
 vector<Empresa> Empresas;
+vector<Funcionario> Contratacoes;
 
 void menu();
 void criarEmpresa(string nome);
+void ContratarFuncionario();
+void SortearContratacoes();
+void SistemaContratacao();
+void limpar_buffer();
