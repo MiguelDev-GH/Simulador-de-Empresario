@@ -59,6 +59,8 @@ vector<Funcionario> Contratacoes;
 
 void menu();
 void criarEmpresa(string nome);
+void EmpresasVender(Empresas[empNum]);
+
 void ContratarFuncionario();
 void SortearContratacoes();
 void SistemaContratacao();

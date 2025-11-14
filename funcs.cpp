@@ -108,6 +108,20 @@ void EmpresasFuncionarios(Empresa& emp){
 
 }
 
+void EmpresasVender(Empresa& emp){
+    LIMPAR
+    cout << "Voce tem certeza que deseja vender " + emp.nome + "?" << endl;
+    cout << "(Será deletado junto todos os funcionários)" << endl;
+    cout << "Valor que sera ganho: R$" << emp.valor << "\n" << endl;
+    cout << "Digite <S> e ENTER para confirmar a venda: ";
+    input();
+
+    if(op == "s" || op == "S"){
+        Empresas.erase(Empresas.begin(), Empresas.end(), emp);
+    }
+}
+
+
 void noticia(string mensagem){
     noticiaMensagem = mensagem;
     noticiaAtivada = true;
@@ -150,11 +164,12 @@ void menu(){
 
         cout << "\n1- Detalhes" << endl; 
         cout << "2- Funcionários..." << endl;
-        cout << "3- Deletar Empresa\n" << endl; // Opção não feita ainda
+        cout << "3- Vender Empresa\n" << endl; // Opção não feita ainda
         input();
 
         if(op == "1") DetalharEmpresa(Empresas[empNum]);
         else if(op == "2") EmpresasFuncionarios(Empresas[empNum]);
+        else if(op == "3") EmpresasVender(Empresas[empNum]);
 
     } else if(op == to_string(Empresas.size() + 1)){
         SistemaContratacao();
@@ -295,7 +310,4 @@ void ganhoDiario(vector<Empresa>& Empresas){
         ganho += MotivacaoTotal;
 
     }
-
-
-
 }
