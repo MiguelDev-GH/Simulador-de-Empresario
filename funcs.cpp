@@ -93,7 +93,7 @@ void EmpresasFuncionarios(Empresa& emp){
                 dinheiro -= func.custoMelhoria;
                 acoesPorDia--;
                 func.overall += 1;
-                func.custoMelhoria = (func.salario * 0.45) + (50 * func.overall);
+                func.custoMelhoria = (func.salario * 0.25) + (50 * func.overall);
                 func.salario += 50;
             } else {
                 LIMPAR
@@ -135,7 +135,7 @@ void menu(){
 
         cout << "\n1- Detalhes" << endl; 
         cout << "2- Funcionários..." << endl;
-        cout << "3- Deletar Empresa" << endl; // Opção não feita ainda
+        cout << "3- Deletar Empresa\n" << endl; // Opção não feita ainda
         input();
 
         if(op == "1") DetalharEmpresa(Empresas[empNum]);
@@ -170,7 +170,7 @@ void SortearContratacoes(){
         
         novo.contratavel = true;
         novo.salario = ((salario*salario) * 45) + 1200;
-        novo.custoMelhoria = (novo.salario * 0.45) + (5 * novo.overall);
+        novo.custoMelhoria = (novo.salario * 0.25) + (5 * novo.overall);
 
         Contratacoes.push_back(novo);
 
@@ -181,36 +181,62 @@ void SortearContratacoes(){
 void SistemaContratacao(){
     LIMPAR
 
+    int funcNum = 0;
+
     cout << "----------Menu-De-Contratação------------\n\n";
 
     int cont = 1;
+    int contNaoContrataveis = 0;
 
     for(int i = 0; i < Contratacoes.size();i++){
-        
-        if(Contratacoes[i].contratavel){
-            printf("%d- %s > %d <\n",i+1, Contratacoes[i].nome.c_str(), Contratacoes[i].overall);
 
-            for(auto& func : Contratacoes[i].atributos){
-                cout << func.first << ": " << func.second << " | ";
+        if(contNaoContrataveis < 3){
+        
+            if(Contratacoes[i].contratavel){
+                printf("%d- %s > %d <\n",i+1, Contratacoes[i].nome.c_str(), Contratacoes[i].overall);
+
+                for(auto& func : Contratacoes[i].atributos){
+                    cout << func.first << ": " << func.second << " | ";
+                }
+
+                cout << "\nSalário: R$ " << Contratacoes[i].salario << "\n" << endl;
+
+            } else {
+                cout << i+1 << "- =- CANDIDATO INDISPONÍVEL -=\n" << endl;
+                contNaoContrataveis++;
             }
 
-            cout << "\nSalário: R$ " << Contratacoes[i].salario << "\n" << endl;
-
-        } else {
-            printf("=- FUNCIONÁRIO INDISPONÍVEL -=");
         }
     }
 
-    cout << "Digite o número do funcionário que deseja contratar!\n (Qualquer outra entrada para voltar)" << endl;
+    if(contNaoContrataveis == 3){
+        LIMPAR
+        cout << "----------Menu-De-Contratação------------\n\n";
+        cout << "=- Aguarde a próxima semana para mais novos candidatos... \n(A cada sete dias)\n" << endl;
 
+        cout << "Aperte ENTER para voltar..." << endl;
+        getchar();
+        return;
+    }
+
+    cout << "Digite o número do funcionário que deseja contratar!\n (Qualquer outra entrada para voltar)" << endl;
     input();
 
     LIMPAR
 
     if(op >= "1" && op <= "3"){
-        cout << "Qual a empresa que você deseja contratar o " << Contratacoes[stoi(op) - 1].nome << "?" <<endl;
 
-        int funcNum = stoi(op) - 1;
+        funcNum = stoi(op) - 1;
+
+        if(!Contratacoes[funcNum].contratavel){
+            LIMPAR
+            cout << "> Funcionário indisponível! <\n" << endl;
+            cout << "Aperte ENTER para voltar..." << endl;
+            getchar();
+            return;
+        }
+
+        cout << "Qual a empresa que você deseja contratar o " << Contratacoes[funcNum].nome << "?" <<endl;
 
         for(int i = 0; i < Empresas.size(); i++){
             cout << i+1 << "- " << Empresas[i].nome << endl;
@@ -219,8 +245,10 @@ void SistemaContratacao(){
         cout << endl;
         input();
 
-        if(op >= "1" && op <= to_string(Empresas.size()) && Empresas[stoi(op) - 1].funcionarios[funcNum].contratavel){
+        if(op >= "1" && op <= to_string(Empresas.size()) && Contratacoes[funcNum].contratavel){
             Empresas[stoi(op) - 1].funcionarios.push_back(Contratacoes[funcNum]);
+            Empresas[stoi(op) - 1].funcionarios.back().contratavel = false;
+            Contratacoes[funcNum].contratavel = false;
             acoesPorDia--;
         }
     }
