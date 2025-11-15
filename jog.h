@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <chrono>
 #include <algorithm>
+#include <conio.h>
 
 using namespace std;
 

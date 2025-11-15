@@ -192,6 +192,13 @@ void fimDeJogo(){
     exit(1);
 }
 
+void Trabalhos(){
+    LIMPAR 
+
+    cout << "~ Trabalhos: \n" << endl;
+    // Adicionar os "minijogos aqui"
+}
+
 void menu(){
 
     if(Empresas.size() <= 0){
@@ -240,8 +247,9 @@ void menu(){
         else if(op == "2") EmpresasFuncionarios(Empresas[empNum]);
         else if(op == "3") EmpresasVender(Empresas[empNum]);
 
-    } else if(op == to_string(Empresas.size() + 1)){
-        SistemaContratacao();
+    } else if(op == to_string(Empresas.size() + 1)){ SistemaContratacao();
+    } else if(op == to_string(Empresas.size() + 2)){ Trabalhos();
+
     } else {
         pularDia = 1;
     }
