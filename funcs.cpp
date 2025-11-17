@@ -32,7 +32,8 @@ void DetalharEmpresa(Empresa& emp){
     cout << "Infraestrutura NV " << emp.melhorias["Infraestrutura"]<< endl; 
     cout << "Marketing NV " << emp.melhorias["Marketing"] << "\n\n"; 
 
-    input();
+    cout << "Aperte ENTER para voltar..." << endl;
+    getchar();
 
 }
 
@@ -40,6 +41,13 @@ void EmpresasFuncionarios(Empresa& emp){
     LIMPAR
 
     cout << "Funcionários de " << emp.nome << "\n" << endl;
+
+    if(emp.funcionarios.size() <= 0){
+        cout << "Empresa sem funcionários...\n" << endl;
+        cout << "Aperte ENTER para voltar..." << endl;
+        getchar();
+        return;
+    }
 
     for(int i = 0; i < (int)emp.funcionarios.size(); i++){
         cout << i+1 << "- " << emp.funcionarios[i].nome << " | ";
@@ -196,7 +204,32 @@ void Trabalhos(){
     LIMPAR 
 
     cout << "~ Trabalhos: \n" << endl;
-    // Adicionar os "minijogos aqui"
+    
+    cout << "1- Negociar";
+
+    if(negociacaoFeita) cout << " (Em progresso)" << endl;
+    else cout << endl;
+
+    cout << "2- Avançar pesquisa" << endl;
+
+    input();
+
+    if(op == "1"){
+        negociacaoFeita = true;
+        LIMPAR
+        cout << "Digite o valor que deseja negociar em reais:";
+        input();
+        double valorNegociacao = stod(op);
+        float porcentagemSucesso = (rand() + 100) / 100;
+
+        cout << "Valor da negociação: R$" << valorNegociacao << endl;
+        cout << "Porcentagem de sucesso: " << porcentagemSucesso << "%\n" << endl;
+
+        // Aqui tem que fazer as opções para se a negociacão for feita ou não
+        cout << "Aperte ENTER para voltar..." << endl;
+        getchar();
+
+    }
 }
 
 void menu(){
@@ -226,6 +259,8 @@ void menu(){
     }
 
     cout << "\n" << Empresas.size() + 1 << "- Contratar Funcionários" << endl;
+    cout << Empresas.size() + 2 << "- Trabalhos" << endl;
+
     cout << "\nDigite uma opção não listada para pular um dia..." << endl;
     input();
 

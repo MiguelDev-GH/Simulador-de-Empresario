@@ -53,6 +53,8 @@ int dia = 1;
 int acoesPorDia = 3;
 int pularDia = 0;
 
+bool negociacaoFeita = false;
+
 string op;
 
 bool noticiaAtivada = false;
