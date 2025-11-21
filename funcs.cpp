@@ -154,6 +154,7 @@ void EmpresasFuncionarios(Empresa& emp){
                 func.overall += 1;
                 func.custoMelhoria = (func.salario * 0.25) + (50 * func.overall);
                 func.salario += 50;
+                emp.valor += 50;
                 noticia(func.nome + " foi melhorado!");
             } else {
                 LIMPAR
@@ -267,19 +268,64 @@ void Trabalhos(){
     input();
 
     if(op == "1"){
-        negociacaoFeita = true;
+        if(!negociacaoFeita){
+            srand(time(NULL));
+            negociacaoFeita = true;
+            LIMPAR
+            cout << "Digite o valor que deseja negociar em reais:";
+            input();
+            valorNegociacao = stod(op);
+            porcentagemSucesso = (rand() % 100) - 1;
+
+            if(porcentagemSucesso > 100) porcentagemSucesso = 100;
+            else if(porcentagemSucesso < 0) porcentagemSucesso = 0;
+
+            pagarNegociacao = valorNegociacao / (porcentagemSucesso * 0.1);
+
+        }
+
         LIMPAR
-        cout << "Digite o valor que deseja negociar em reais:";
-        input();
-        double valorNegociacao = stod(op);
-        float porcentagemSucesso = (rand() + 100) / 100;
 
-        cout << "Valor da negociação: R$" << valorNegociacao << endl;
-        cout << "Porcentagem de sucesso: " << porcentagemSucesso << "%\n" << endl;
+        if(!negociacaoPaga){
 
-        // Aqui tem que fazer as opções para se a negociacão for feita ou não
-        cout << "Aperte ENTER para voltar..." << endl;
-        getchar();
+            cout << "Valor da negociação: R$" << valorNegociacao << endl;
+            cout << "Porcentagem de sucesso: " << porcentagemSucesso << "%\n" << endl;
+            cout << "Preço a ser pago: R$" << pagarNegociacao << "\n"<< endl;
+
+            cout << "Deseja fazer a negociacão? ( <S> e <ENTER> se sim )" << endl;
+            input();
+
+            if(op == "s" || op == "S"){
+                if(dinheiro >= pagarNegociacao){
+                    valorChance = (rand() % 100);
+                    negociacaoPaga = true;
+                    
+                    cout << "Você tirou: " << valorChance << endl;
+
+                    if(valorChance <= porcentagemSucesso){
+                        cout << "Negociação foi feita com SUCESSO!" << endl;
+                        // Adicionar um sistema que é necessário devolver o resto da parte do dinheiro após um tempo da negocioaçõa
+                    } else {
+                        cout << "A negociação falhou!" << endl;
+                    }
+
+                    cout << "\nAperte ENTER para voltar..." << endl;
+                    getchar();
+                }
+            }
+        } else {
+            if(negociacaoAprovada){
+                cout << "Você fez já fez uma negociação que foi APROVADA!" << endl;
+            } else {
+                cout << "Você fez já fez uma negociação que FALHOU!" << endl;
+            }
+
+            cout << "\nNo valor de " << valorNegociacao << " com  " << porcentagemSucesso << "% de chance de sucesso!" << endl;
+            cout << "Tente novamente em outro dia...\n" << endl;
+            cout << "\nAperte ENTER para voltar..." << endl;
+            getchar();
+        
+        }
 
     }
 }
@@ -410,7 +456,7 @@ void SistemaContratacao(){
         return;
     }
 
-    cout << "Digite o número do funcionário que deseja contratar!\n (Qualquer outra entrada para voltar)" << endl;
+    cout << "Digite o número do funcionário que deseja contratar!\n(Qualquer outra entrada para voltar)" << endl;
     input();
 
     LIMPAR
@@ -449,6 +495,7 @@ void SistemaContratacao(){
             Empresas[stoi(op) - 1].funcionarios.back().contratavel = false;
             Contratacoes[funcNum].contratavel = false;
             dinheiro -= Contratacoes[funcNum].salario;
+            Empresas[stoi(op) - 1].valor += Contratacoes[funcNum].salario;
             noticia(Contratacoes[funcNum].nome + " foi contratado em " + Empresas[stoi(op) - 1].nome + "!");
             acoesPorDia--;
         }
@@ -461,13 +508,11 @@ void ganhoDiario(vector<Empresa>& Empresas){
     int MotivacaoTotal = 0;
 
     for(int i = 0; i < Empresas.size(); i++){
-        Empresa emp = Empresas[i];
+        Empresa& emp = Empresas[i];
 
         MotivacaoTotal = 0;
 
-        for(int j = 0; j < emp.funcionarios.size() ;j++){
-            MotivacaoTotal += emp.funcionarios[j].atributos["Motivacao"];
-        }
+        for(int j = 0; j < emp.funcionarios.size(); j++) MotivacaoTotal += emp.funcionarios[j].atributos["Motivacao"];
 
         ganho += MotivacaoTotal;
 

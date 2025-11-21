@@ -8,6 +8,7 @@
 #include <chrono>
 #include <algorithm>
 #include <conio.h>
+#include <iomanip>
 
 using namespace std;
 
@@ -58,11 +59,18 @@ map<string,int> contarDias = {
 };
 
 bool negociacaoFeita = false;
+bool negociacaoPaga = false;
 
 string op;
 
 bool noticiaAtivada = false;
 string noticiaMensagem;
+
+double valorNegociacao = 0;
+float porcentagemSucesso = 0;
+double pagarNegociacao = 0;
+double valorChance = 0;
+bool negociacaoAprovada = false;
 
 vector<Empresa> Empresas;
 vector<Funcionario> Contratacoes;
