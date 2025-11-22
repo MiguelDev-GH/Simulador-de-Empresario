@@ -55,7 +55,8 @@ int acoesPorDia = 3;
 int pularDia = 0;
 
 map<string,int> contarDias = {
-    {"Pagar Funcionarios", -1}
+    {"Pagar Funcionarios", -1},
+    {"Pagar Negociacao", -1}
 };
 
 bool negociacaoFeita = false;

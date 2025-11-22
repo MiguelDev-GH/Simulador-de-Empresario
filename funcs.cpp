@@ -272,16 +272,17 @@ void Trabalhos(){
             srand(time(NULL));
             negociacaoFeita = true;
             LIMPAR
-            cout << "Digite o valor que deseja negociar em reais:";
+            cout << "> Lembrando de que as negociações são feitas UMA por vez!" << endl;
+            cout << "Digite o valor que deseja negociar em reais: ";
             input();
             valorNegociacao = stod(op);
-            porcentagemSucesso = (rand() % 100) - 1;
+            porcentagemSucesso = (rand() % 60);
 
             if(porcentagemSucesso > 100) porcentagemSucesso = 100;
             else if(porcentagemSucesso < 0) porcentagemSucesso = 0;
 
-            pagarNegociacao = valorNegociacao / (porcentagemSucesso * 0.1);
-
+            pagarNegociacao = (valorNegociacao  / 3) / (porcentagemSucesso * 0.5);
+            if(pagarNegociacao < 2) pagarNegociacao = 2.5;
         }
 
         LIMPAR
@@ -299,8 +300,6 @@ void Trabalhos(){
                 if(dinheiro >= pagarNegociacao){
                     valorChance = (rand() % 100);
                     negociacaoPaga = true;
-                    
-                    cout << "Você tirou: " << valorChance << endl;
 
                     if(valorChance <= porcentagemSucesso){
                         cout << "Negociação foi feita com SUCESSO!" << endl;
@@ -311,6 +310,12 @@ void Trabalhos(){
 
                     cout << "\nAperte ENTER para voltar..." << endl;
                     getchar();
+                } else {
+                    LIMPAR
+                    cout << "> Dinheiro Insuficiente! <\n" << endl;
+                    cout << "Aperte ENTER para voltar..." << endl;
+                    getchar();
+                    return;    
                 }
             }
         } else {
